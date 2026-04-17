@@ -353,9 +353,11 @@ body {
 
 .word-actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
-  flex-shrink: 0;
+  position: absolute;
+  top: 20px;
+  right: 24px;
 }
 
 .icon-btn {
@@ -1455,65 +1457,82 @@ function quickSearch(word) {
   lookupWord();
 }
 
-
 async function lookupWord() {
+  if (isLoading) return;
+  const word = document.getElementById('searchInput').value.trim();
+  if (!word) return;
 
-  const word = document.getElementById("searchInput").value.trim()
-  if (!word) return
+  isLoading = true;
+  setLoading(true);
+  clearError();
 
-  document.getElementById("emptyState").style.display = "none"
-  document.getElementById("resultCol").style.display = "block"
-  document.getElementById("sidebarCol").style.display = "block"
+  // Show layout
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('resultCol').style.display = 'block';
+  document.getElementById('sidebarCol').style.display = 'block';
 
-  resetResult(word)
+  // Reset UI
+  resetResult(word);
 
   try {
-
-    const dictRes = await fetch("https://api.dictionaryapi.dev/api/v2/entries/en/" + word)
-    const dictData = await dictRes.json()
-
-    const meaning = dictData[0].meanings[0]
-    const definition = meaning.definitions[0].definition
-    const example = meaning.definitions[0].example || ""
-    const phonetic = dictData[0].phonetic || ""
-    const pos = meaning.partOfSpeech
-
-    
-    const transRes = await fetch("https://libretranslate.de/translate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        q: word,
-        source: "en",
-        target: "ta",
-        format: "text"
-      })
-    })
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: `You are an expert English-Tamil dictionary. For the word "${word}", respond with ONLY valid JSON (no markdown, no backticks, no explanation). Use this exact structure:
 
-    const transData = await transRes.json()
-    const tamilWord = transData.translatedText
-
-
-    const result = {
-      word: word,
-      phonetic: phonetic,
-      partOfSpeech: [pos],
-      primaryTamil: tamilWord,
-      definitions: [{ en: definition, ta: tamilWord }],
-      examples: [{ en: example, ta: tamilWord }],
-      tamilEquivalents: [{ ta: tamilWord, context: "general" }],
-      synonyms: []
-    }
-
-    renderResult(result)
-    addToHistory(word, tamilWord)
-    currentWord = result
-
-  } catch (err) {
-    showError("Word not found.")
-  }
+{
+  "word": "${word}",
+  "phonetic": "/pronunciation/",
+  "partOfSpeech": ["noun"],
+  "primaryTamil": "முதன்மை தமிழ் சொல்",
+  "definitions": [
+    { "en": "English definition 1", "ta": "தமிழ் விளக்கம் 1" },
+    { "en": "English definition 2", "ta": "தமிழ் விளக்கம் 2" }
+  ],
+  "examples": [
+    { "en": "Example sentence 1.", "ta": "தமிழ் மொழிபெயர்ப்பு 1." },
+    { "en": "Example sentence 2.", "ta": "தமிழ் மொழிபெயர்ப்பு 2." },
+    { "en": "Example sentence 3.", "ta": "தமிழ் மொழிபெயர்ப்பு 3." }
+  ],
+  "tamilEquivalents": [
+    { "ta": "தமிழ் சொல் 1", "context": "formal" },
+    { "ta": "தமிழ் சொல் 2", "context": "colloquial" },
+    { "ta": "தமிழ் சொல் 3", "context": "literary" },
+    { "ta": "தமிழ் சொல் 4", "context": "classical" }
+  ],
+  "synonyms": ["synonym1", "synonym2", "synonym3", "synonym4", "synonym5"]
 }
 
+partOfSpeech values can be: noun, verb, adjective, adverb, preposition, conjunction, interjection
+Provide genuine, accurate Tamil translations. All Tamil text must be in Tamil script.`
+        }]
+      })
+    });
+
+    if (!response.ok) throw new Error('API error ' + response.status);
+    const data = await response.json();
+    const raw = data.content[0].text.trim();
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(clean);
+
+    renderResult(result);
+
+    // Add to history
+    addToHistory(result.word, result.primaryTamil);
+    currentWord = result;
+
+  } catch (err) {
+    showError('பிழை ஏற்பட்டது. மீண்டும் முயற்சிக்கவும். (' + err.message + ')');
+  } finally {
+    isLoading = false;
+    setLoading(false);
+  }
+}
 
 // ── RENDER ──
 function resetResult(word) {
@@ -1711,6 +1730,12 @@ function showError(msg) {
   const el = document.getElementById('errorBanner');
   el.textContent = msg;
   el.classList.add('visible');
+}
+
+function clearError() {
+  const el = document.getElementById('errorBanner');
+  el.textContent = '';
+  el.classList.remove('visible');
 }
 
 // ── PDF VOCABULARY EXTRACTION ──
