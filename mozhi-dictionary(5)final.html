@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ழகரம் — English · Tamil Dictionary</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@300;400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --ink: #1a1410;
+  --border: #e4ddd3;
+  --saffron: #c85c1a;
+  --saffron-dark: #a04414;
+  --saffron-light: #fdf0e8;
+  --teal: #1a6b6b;
+  --teal-light: #ddf0f0;
+  --gold: #8a6b00;
+  --gold-light: #fdf8e4;
+  --muted: #8a7f72;
+  --tag-bg: #f0ead8;
+  --hero-bg: #1a0e06;
+  --hero-accent: #2e1a0c;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Noto Sans Tamil', sans-serif;
+  min-height: 100vh;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  background: var(--hero-bg);
+  padding: 0 48px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(200,92,26,0.3);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-logo {
+  width: 32px; height: 32px;
+  background: var(--saffron);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-size: 15px;
+  font-weight: 900;
+  color: white;
+  box-shadow: 0 0 12px rgba(200,92,26,0.4);
+}
+
+.brand-name {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+.brand-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.history-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.5);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.history-btn:hover { color: var(--saffron); }
+
+/* ── HERO SEARCH ── */
+.hero {
+  background: var(--hero-bg);
+  padding: 36px 48px 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: 'அ';
+  position: absolute;
+  right: 40px; bottom: -50px;
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-size: 320px;
+  font-weight: 900;
+  color: rgba(200,92,26,0.08);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 60% 100% at 0% 50%, rgba(200,92,26,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 80% at 100% 0%, rgba(26,107,107,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: rgba(200,92,26,0.85);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.search-wrap {
+  display: flex;
+  gap: 0;
+  max-width: 780px;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.3);
+}
+
+.search-input {
+  flex: 1;
+  background: white;
+  border: none;
+  padding: 15px 22px;
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--ink);
+  outline: none;
+  letter-spacing: -0.5px;
+  border-left: 3px solid var(--saffron);
+}
+
+.search-input::placeholder {
+  color: #bbb;
+  font-style: italic;
+}
+
+.search-btn {
+  background: var(--saffron);
+  color: white;
+  border: none;
+  padding: 0 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-weight: 700;
+}
+
+.search-btn:hover { background: var(--saffron-dark); }
+.search-btn:disabled { background: #666; cursor: not-allowed; }
+
+.search-btn .btn-spinner {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.quick-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+  max-width: 780px;
+  position: relative;
+  z-index: 1;
+}
+
+.quick-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 5px 14px;
+  border: 1px solid rgba(200,92,26,0.35);
+  color: rgba(255,255,255,0.75);
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+}
+
+.quick-pill:hover {
+  border-color: var(--saffron);
+  color: white;
+  background: rgba(200,92,26,0.2);
+}
+
+/* ── LAYOUT ── */
+.main {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 48px;
+  gap: 32px;
+  min-height: 60vh;
+}
+
+/* ── EMPTY / LOADING STATES ── */
+.state-box {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 40px;
+  color: var(--muted);
+}
+
+.state-box .state-icon {
+  font-size: 56px;
+  margin-bottom: 20px;
+  opacity: 0.35;
+  filter: grayscale(0.3);
+}
+
+.state-box h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.state-box p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* ── RESULT CARD ── */
+.result-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  animation: slideUp 0.4s ease both;
+  box-shadow: 0 2px 16px rgba(26,14,6,0.06);
+}
+
+@keyframes slideUp {
+  from { opacity:0; transform: translateY(16px); }
+  to { opacity:1; transform: translateY(0); }
+}
+
+/* Word header */
+.word-header {
+  padding: 32px 40px 28px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  background: linear-gradient(135deg, #fff 0%, #fdf8f4 100%);
+  position: relative;
+}
+
+.word-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--saffron), var(--teal));
+}
+
+.word-en {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+  letter-spacing: -2px;
+  margin-bottom: 6px;
+}
+
+.word-phonetic {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.word-ta-primary {
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 800;
+  color: var(--saffron);
+  line-height: 1.3;
+}
+
+.pos-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.pos-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  padding: 4px 10px;
+  background: var(--tag-bg);
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.pos-tag.noun { background: var(--teal-light); color: var(--teal); border: 1px solid rgba(26,107,107,0.2); }
+.pos-tag.verb { background: var(--saffron-light); color: var(--saffron); border: 1px solid rgba(200,92,26,0.2); }
+.pos-tag.adj  { background: var(--gold-light); color: var(--gold); border: 1px solid rgba(138,107,0,0.2); }
+
+.word-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  position: absolute;
+  top: 20px;
+  right: 24px;
+}
+
+.icon-btn {
+  width: 40px; height: 40px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.icon-btn:hover { background: var(--saffron-light); border-color: var(--saffron); transform: translateY(-1px); }
+.icon-btn.saved { background: var(--saffron); border-color: var(--saffron); }
+
+/* Sections */
+.card-section {
+  padding: 28px 40px;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-section:last-child { border-bottom: none; }
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--saffron);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+/* Definitions */
+.definition-list { list-style: none; }
+
+.def-item {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed var(--border);
+}
+
+.def-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+.def-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--saffron);
+  font-weight: 700;
+  flex-shrink: 0;
+  width: 20px;
+  margin-top: 2px;
+}
+
+.def-content {}
+
+.def-en {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.7;
+  margin-bottom: 6px;
+}
+
+.def-ta {
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-size: 15px;
+  color: var(--teal);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* Examples */
+.example-item {
+  background: var(--bg);
+  border-left: 3px solid var(--saffron);
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.example-item:hover {
+  background: var(--saffron-light);
+  border-color: var(--saffron-dark);
+}
+
+.example-item:last-child { margin-bottom: 0; }
+
+.ex-en {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+
+.ex-ta {
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Synonyms */
+.synonym-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.syn-chip {
+  font-size: 13px;
+  padding: 6px 16px;
+  border: 1px solid var(--border);
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--bg);
+}
+
+.syn-chip:hover {
+  border-color: var(--saffron);
+  color: var(--saffron);
+  background: var(--saffron-light);
+}
+
+/* Tamil equivalents */
+.equiv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.equiv-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  transition: border-color 0.2s;
+}
+
+.equiv-card:hover { border-color: var(--teal); }
+
+.equiv-ta {
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.equiv-context {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {}
+
+.sidebar-widget {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+  animation: slideUp 0.4s ease both;
+  box-shadow: 0 1px 8px rgba(26,14,6,0.05);
+  overflow: hidden;
+}
+
+.widget-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, var(--bg), #fdf6ef);
+}
+
+.widget-clear {
+  cursor: pointer;
+  color: var(--saffron);
+  font-size: 9px;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+.widget-clear:hover { color: var(--saffron-dark); }
+
+.widget-body { padding: 16px 20px; }
+
+/* History list */
+.history-list { list-style: none; }
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.history-item:last-child { border-bottom: none; }
+
+.history-item:hover .hist-word { color: var(--saffron); }
+
+.hist-word {
+  font-family: 'Fraunces', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  transition: color 0.2s;
+}
+
+.hist-ta {
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Saved words */
+.saved-list { list-style: none; }
+
+.saved-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.saved-item:last-child { border-bottom: none; }
+
+.saved-dot {
+  width: 6px; height: 6px;
+  background: var(--saffron);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.saved-word {
+  font-family: 'Fraunces', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.saved-ta {
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+/* Word of day */
+.wod-en {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -1px;
+  margin-bottom: 4px;
+}
+
+.wod-ta {
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--saffron);
+  margin-bottom: 10px;
+}
+
+.wod-def {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.wod-btn {
+  display: block;
+  margin-top: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--saffron);
+  text-transform: uppercase;
+  background: none;
+  border: 1px solid rgba(200,92,26,0.35);
+  padding: 7px 16px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.wod-btn:hover { background: var(--saffron-light); border-color: var(--saffron); }
+
+/* Error */
+.error-banner {
+  background: #fff0ee;
+  border: 1px solid #f5c5bb;
+  padding: 16px 20px;
+  color: #c0392b;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  display: none;
+  grid-column: 1 / -1;
+}
+
+.error-banner.visible { display: block; }
+
+/* Streaming text */
+.streaming-text {
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-size: 15px;
+  line-height: 1.9;
+  color: #444;
+  white-space: pre-wrap;
+}
+
+.cursor-blink {
+  display: inline-block;
+  width: 2px; height: 16px;
+  background: var(--saffron);
+  animation: blink 0.7s step-end infinite;
+  vertical-align: middle;
+  margin-left: 1px;
+}
+@keyframes blink { 50% { opacity:0; } }
+
+/* Tabs */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+
+.tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  cursor: pointer;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.2s;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.tab:hover { color: var(--saffron); }
+.tab.active { color: var(--saffron); border-bottom-color: var(--saffron); background: var(--saffron-light); }
+
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* Pictures grid */
+.pictures-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.pic-item {
+  position: relative;
+  overflow: hidden;
+  background: var(--border);
+  aspect-ratio: 4/3;
+  cursor: pointer;
+}
+
+.pic-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease, opacity 0.3s;
+  opacity: 0;
+}
+
+.pic-item img.loaded { opacity: 1; }
+
+.pic-item:hover img { transform: scale(1.07); }
+
+.pic-item .pic-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: flex-end;
+  padding: 10px 12px;
+}
+
+.pic-item:hover .pic-overlay { opacity: 1; }
+
+.pic-overlay-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.85);
+  text-transform: uppercase;
+}
+
+.pic-shimmer {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--border) 25%, #ede7da 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  position: absolute;
+  inset: 0;
+}
+
+.pic-shimmer.hidden { display: none; }
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.pics-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  padding: 40px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+
+.pics-credit {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-align: right;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── PDF UPLOAD ── */
+.pdf-upload-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  max-width: 780px;
+}
+
+.pdf-upload-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px dashed rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.9);
+  padding: 9px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.pdf-upload-btn:hover {
+  border-color: white;
+  color: white;
+  background: rgba(255,255,255,0.15);
+}
+
+.pdf-upload-btn svg { flex-shrink: 0; }
+
+.pdf-filename {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: white;
+  letter-spacing: 1px;
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.pdf-filename.visible { display: flex; }
+
+.pdf-clear {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0 4px;
+  transition: color 0.2s;
+}
+.pdf-clear:hover { color: white; }
+
+.pdf-extract-btn {
+  background: white;
+  color: var(--saffron);
+  border: none;
+  padding: 9px 22px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: none;
+  font-weight: 700;
+}
+
+.pdf-extract-btn.visible { display: block; }
+.pdf-extract-btn:hover:not(:disabled) { background: #fff5ef; color: var(--saffron-dark); }
+.pdf-extract-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── VOCAB PANEL ── */
+#vocabPanel {
+  display: none;
+  grid-column: 1 / -1;
+  animation: slideUp 0.4s ease both;
+}
+
+#vocabPanel.visible { display: block; }
+
+.vocab-header {
+  background: linear-gradient(135deg, var(--hero-bg) 0%, #2e1a0c 100%);
+  color: white;
+  padding: 32px 40px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-bottom: 3px solid var(--saffron);
+  border-top: 1px solid var(--border);
+}
+
+.vocab-title-block h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: white;
+  margin-bottom: 4px;
+  letter-spacing: -1px;
+}
+
+.vocab-title-block .vocab-source {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.vocab-stats {
+  display: flex;
+  gap: 24px;
+}
+
+.vocab-stat {
+  text-align: center;
+}
+
+.vocab-stat .stat-num {
+  font-family: 'Fraunces', serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--saffron);
+  line-height: 1;
+  display: block;
+}
+
+.vocab-stat .stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+}
+
+.vocab-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.vaction-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.vaction-btn:hover { border-color: var(--saffron); color: var(--saffron); }
+
+.vaction-btn.primary {
+  background: var(--saffron);
+  color: white;
+  border-color: var(--saffron);
+  font-weight: 700;
+}
+
+.vaction-btn.primary:hover { background: #c05518; }
+
+/* Vocab filter bar */
+.vocab-filter-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-input {
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink);
+  outline: none;
+  letter-spacing: 1px;
+}
+
+.filter-input:focus { border-color: var(--saffron); }
+
+.filter-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--bg);
+  text-transform: uppercase;
+}
+
+.filter-chip.active { border-color: var(--saffron); color: var(--saffron); background: var(--saffron-light); }
+
+/* Vocab table */
+.vocab-table-wrap {
+  background: var(--surface);
+  overflow-x: auto;
+}
+
+.vocab-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.vocab-table thead tr {
+  background: var(--bg);
+  border-bottom: 2px solid var(--border);
+}
+
+.vocab-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 14px 20px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.vocab-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.vocab-table tbody tr:hover { background: var(--bg); }
+
+.vocab-table td {
+  padding: 14px 20px;
+  vertical-align: top;
+}
+
+.vt-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  width: 44px;
+}
+
+.vt-word {
+  font-family: 'Fraunces', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.vt-word:hover { color: var(--saffron); text-decoration: underline; }
+
+.vt-pos {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.vt-pos.noun { background: var(--teal-light); color: var(--teal); }
+.vt-pos.verb { background: var(--saffron-light); color: var(--saffron); }
+.vt-pos.adj  { background: var(--gold-light); color: var(--gold); }
+.vt-pos.other { background: var(--tag-bg); color: var(--muted); }
+
+.vt-en {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.6;
+  max-width: 300px;
+}
+
+.vt-ta {
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--teal);
+  line-height: 1.5;
+}
+
+.vt-ta-def {
+  font-family: 'Noto Sans Tamil', sans-serif;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 3px;
+  line-height: 1.5;
+}
+
+/* Loading vocab rows */
+.vocab-loading {
+  padding: 60px 40px;
+  text-align: center;
+  background: var(--surface);
+}
+
+.vocab-loading .loading-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--saffron);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.vocab-progress {
+  width: 100%;
+  max-width: 400px;
+  height: 2px;
+  background: var(--border);
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.vocab-progress-fill {
+  height: 100%;
+  background: var(--saffron);
+  animation: progressAnim 2s ease-in-out infinite;
+}
+
+@keyframes progressAnim {
+  0% { width: 5%; margin-left: 0; }
+  50% { width: 60%; margin-left: 20%; }
+  100% { width: 5%; margin-left: 95%; }
+}
+
+.vocab-count-live {
+  font-family: 'Fraunces', serif;
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--saffron);
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Print styles */
+@media print {
+  .topbar, .hero, .vocab-filter-bar, .vocab-actions, .vaction-btn, .pdf-upload-bar { display: none !important; }
+  body { background: white; }
+  .vocab-header { background: white !important; color: black !important; border-bottom: 2px solid #333; }
+  .vocab-header h2, .vocab-stat .stat-num { color: var(--saffron) !important; }
+  .vocab-stat .stat-label { color: #666 !important; }
+  .vocab-table tbody tr { page-break-inside: avoid; }
+}
+
+@media (max-width: 900px) {
+  .main { grid-template-columns: 1fr; padding: 24px; }
+  .topbar, .hero { padding-left: 24px; padding-right: 24px; }
+  .word-header { flex-direction: column; }
+  .equiv-grid { grid-template-columns: 1fr; }
+  .vocab-header { padding: 24px; }
+  .vocab-filter-bar { padding: 12px 24px; }
+  .vocab-table th, .vocab-table td { padding: 10px 12px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-logo">ழ</div>
+    <div>
+      <div class="brand-name">ழகரம்</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="brand-tag">English · Tamil Dictionary</div>
+  </div>
+</div>
+
+<!-- HERO SEARCH -->
+<div class="hero">
+  <div class="hero-label">Search any English word</div>
+  <div class="search-wrap">
+    <input
+      class="search-input"
+      id="searchInput"
+      type="text"
+      placeholder="Type a word..."
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button class="search-btn" id="searchBtn" onclick="lookupWord()">
+      தேடு / Search
+    </button>
+  </div>
+  <div class="quick-words" id="quickWords">
+    <button class="quick-pill" onclick="quickSearch('serendipity')">serendipity</button>
+    <button class="quick-pill" onclick="quickSearch('ephemeral')">ephemeral</button>
+    <button class="quick-pill" onclick="quickSearch('resilience')">resilience</button>
+    <button class="quick-pill" onclick="quickSearch('melancholy')">melancholy</button>
+    <button class="quick-pill" onclick="quickSearch('harmony')">harmony</button>
+    <button class="quick-pill" onclick="quickSearch('wisdom')">wisdom</button>
+    <button class="quick-pill" onclick="quickSearch('courage')">courage</button>
+  </div>
+
+  <!-- PDF Upload bar -->
+  <div class="pdf-upload-bar">
+    <button class="pdf-upload-btn" onclick="document.getElementById('pdfFileInput').click()">
+      📎 Upload PDF — Extract Vocabulary
+    </button>
+    <input type="file" id="pdfFileInput" accept=".pdf" style="display:none" onchange="handlePDFUpload(event)">
+    <div class="pdf-filename" id="pdfFilename">
+      <span id="pdfFileLabel"></span>
+      <button class="pdf-clear" onclick="clearPDF()" title="Remove">✕</button>
+    </div>
+    <button class="pdf-extract-btn" id="pdfExtractBtn" onclick="extractVocabulary()">
+      Extract Vocab →
+    </button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main" id="mainGrid">
+
+  <!-- ERROR -->
+  <div class="error-banner" id="errorBanner"></div>
+
+  <!-- VOCAB PANEL (PDF mode) -->
+  <div id="vocabPanel">
+    <div class="vocab-header">
+      <div class="vocab-title-block">
+        <h2>சொல்லகராதி / Vocabulary List</h2>
+        <div class="vocab-source" id="vocabSource">PDF Source</div>
+      </div>
+      <div class="vocab-stats">
+        <div class="vocab-stat">
+          <span class="stat-num" id="vocabCountStat">0</span>
+          <span class="stat-label">Words</span>
+        </div>
+        <div class="vocab-stat">
+          <span class="stat-num" id="vocabPagesStat">—</span>
+          <span class="stat-label">Pages</span>
+        </div>
+      </div>
+      <div class="vocab-actions">
+        <button class="vaction-btn" onclick="clearPDF(); document.getElementById('vocabPanel').classList.remove('visible');">✕ Close</button>
+        <button class="vaction-btn primary" onclick="downloadVocabPDF()">⬇ Download PDF</button>
+      </div>
+    </div>
+
+    <div class="vocab-filter-bar">
+      <input class="filter-input" id="vocabFilter" type="text" placeholder="Filter words..." oninput="filterVocab()">
+      <button class="filter-chip active" data-pos="all" onclick="setPosFilter('all', this)">All</button>
+      <button class="filter-chip" data-pos="noun" onclick="setPosFilter('noun', this)">Nouns</button>
+      <button class="filter-chip" data-pos="verb" onclick="setPosFilter('verb', this)">Verbs</button>
+      <button class="filter-chip" data-pos="adjective" onclick="setPosFilter('adjective', this)">Adjectives</button>
+      <button class="filter-chip" data-pos="other" onclick="setPosFilter('other', this)">Other</button>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+        <span style="font-family:monospace;font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;">Sort</span>
+        <select id="vocabSort" onchange="sortVocab()" style="font-family:monospace;font-size:10px;background:var(--bg);border:1px solid var(--border);color:var(--ink);padding:6px 10px;outline:none;letter-spacing:1px;cursor:pointer;">
+          <option value="default">Default (Extracted)</option>
+          <option value="az">A → Z</option>
+          <option value="za">Z → A</option>
+          <option value="page-asc">Page ↑ (Low → High)</option>
+          <option value="page-desc">Page ↓ (High → Low)</option>
+          <option value="pos">Part of Speech</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="vocabBody">
+      <div class="vocab-loading" id="vocabLoading">
+        <span class="loading-label">Extracting & Translating...</span>
+        <span class="vocab-count-live" id="vocabCountLive">0</span>
+        <div class="vocab-progress"><div class="vocab-progress-fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="state-box" id="emptyState">
+    <div class="state-icon">📖</div>
+    <h3>Start exploring</h3>
+    <p>Type any English word above to get its Tamil meaning, definitions, examples, and more.</p>
+  </div>
+
+  <!-- RESULT (hidden initially) -->
+  <div id="resultCol" style="display:none;">
+
+    <div class="result-card" id="resultCard">
+
+      <!-- Word Header -->
+      <div class="word-header">
+        <div>
+          <div class="word-en" id="rWordEn">—</div>
+          <div class="word-phonetic" id="rPhonetic"></div>
+          <div class="word-ta-primary" id="rWordTa">—</div>
+          <div class="pos-tags" id="rPosTags"></div>
+        </div>
+        <div class="word-actions">
+          <button class="icon-btn" id="saveBtn" onclick="toggleSave()" title="Save word">🔖</button>
+          <button class="icon-btn" onclick="copyWord()" title="Copy">📋</button>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('meanings')">Meanings</button>
+        <button class="tab" onclick="switchTab('examples')">Examples</button>
+        <button class="tab" onclick="switchTab('tamil')">Tamil Forms</button>
+        <button class="tab" onclick="switchTab('synonyms')">Synonyms</button>
+        <button class="tab" onclick="switchTab('pictures')">🖼 Pictures</button>
+      </div>
+
+      <!-- Tab: Meanings -->
+      <div class="tab-pane active card-section" id="tab-meanings">
+        <div class="section-label">விளக்கங்கள் / Definitions</div>
+        <ul class="definition-list" id="rDefinitions"></ul>
+      </div>
+
+      <!-- Tab: Examples -->
+      <div class="tab-pane card-section" id="tab-examples">
+        <div class="section-label">வாக்கிய உதாரணங்கள் / Example Sentences</div>
+        <div id="rExamples"></div>
+      </div>
+
+      <!-- Tab: Tamil Forms -->
+      <div class="tab-pane card-section" id="tab-tamil">
+        <div class="section-label">தமிழ் வடிவங்கள் / Tamil Equivalents</div>
+        <div class="equiv-grid" id="rEquivs"></div>
+      </div>
+
+      <!-- Tab: Synonyms -->
+      <div class="tab-pane card-section" id="tab-synonyms">
+        <div class="section-label">ஒத்த சொற்கள் / Synonyms & Related</div>
+        <div class="synonym-grid" id="rSynonyms"></div>
+      </div>
+
+      <!-- Tab: Pictures -->
+      <div class="tab-pane card-section" id="tab-pictures">
+        <div class="section-label">படங்கள் / Visual Context</div>
+        <div class="pictures-grid" id="rPictures">
+          <div class="pics-empty">படங்கள் ஏற்றப்படுகின்றன...</div>
+        </div>
+        <div class="pics-credit">Images via Unsplash · Click to open full size</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div id="sidebarCol" style="display:none;">
+
+    <!-- Word of Day -->
+    <div class="sidebar-widget" id="wodWidget">
+      <div class="widget-header">இன்றைய சொல் / Word of Day</div>
+      <div class="widget-body">
+        <div class="wod-en" id="wodEn">—</div>
+        <div class="wod-ta" id="wodTa">—</div>
+        <div class="wod-def" id="wodDef"></div>
+        <button class="wod-btn" onclick="quickSearch(document.getElementById('wodEn').textContent)">விரிவாக பார் →</button>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="sidebar-widget" id="historyWidget" style="display:none;">
+      <div class="widget-header">
+        வரலாறு / History
+        <span class="widget-clear" onclick="clearHistory()">Clear</span>
+      </div>
+      <div class="widget-body">
+        <ul class="history-list" id="historyList"></ul>
+      </div>
+    </div>
+
+    <!-- Saved -->
+    <div class="sidebar-widget" id="savedWidget" style="display:none;">
+      <div class="widget-header">
+        சேமிக்கப்பட்டவை / Saved
+        <span class="widget-clear" onclick="clearSaved()">Clear</span>
+      </div>
+      <div class="widget-body">
+        <ul class="saved-list" id="savedList"></ul>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// ── STATE ──
+let history = [];
+let saved = [];
+let currentWord = null;
+let isLoading = false;
+
+const WORDS_OF_DAY = [
+  { en: 'serendipity', ta: 'எதிர்பாராத நல்ல நிகழ்வு', def: 'The occurrence of events by chance in a happy way.' },
+  { en: 'ephemeral', ta: 'நிலையற்ற', def: 'Lasting for a very short time.' },
+  { en: 'sonder', ta: 'உணர்வு ஆழம்', def: 'The realization that each passerby has a life as vivid as one\'s own.' },
+  { en: 'resilience', ta: 'மீட்சி ஆற்றல்', def: 'The capacity to recover quickly from difficulties.' },
+];
+
+// Pick word of day
+const wod = WORDS_OF_DAY[new Date().getDate() % WORDS_OF_DAY.length];
+document.getElementById('wodEn').textContent = wod.en;
+document.getElementById('wodTa').textContent = wod.ta;
+document.getElementById('wodDef').textContent = wod.def;
+
+// ── SEARCH ──
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') lookupWord();
+});
+
+function quickSearch(word) {
+  document.getElementById('searchInput').value = word;
+  lookupWord();
+}
+
+async function lookupWord() {
+  if (isLoading) return;
+  const word = document.getElementById('searchInput').value.trim();
+  if (!word) return;
+
+  isLoading = true;
+  setLoading(true);
+  clearError();
+
+  // Show layout
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('resultCol').style.display = 'block';
+  document.getElementById('sidebarCol').style.display = 'block';
+
+  // Reset UI
+  resetResult(word);
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: `You are an expert English-Tamil dictionary. For the word "${word}", respond with ONLY valid JSON (no markdown, no backticks, no explanation). Use this exact structure:
+
+{
+  "word": "${word}",
+  "phonetic": "/pronunciation/",
+  "partOfSpeech": ["noun"],
+  "primaryTamil": "முதன்மை தமிழ் சொல்",
+  "definitions": [
+    { "en": "English definition 1", "ta": "தமிழ் விளக்கம் 1" },
+    { "en": "English definition 2", "ta": "தமிழ் விளக்கம் 2" }
+  ],
+  "examples": [
+    { "en": "Example sentence 1.", "ta": "தமிழ் மொழிபெயர்ப்பு 1." },
+    { "en": "Example sentence 2.", "ta": "தமிழ் மொழிபெயர்ப்பு 2." },
+    { "en": "Example sentence 3.", "ta": "தமிழ் மொழிபெயர்ப்பு 3." }
+  ],
+  "tamilEquivalents": [
+    { "ta": "தமிழ் சொல் 1", "context": "formal" },
+    { "ta": "தமிழ் சொல் 2", "context": "colloquial" },
+    { "ta": "தமிழ் சொல் 3", "context": "literary" },
+    { "ta": "தமிழ் சொல் 4", "context": "classical" }
+  ],
+  "synonyms": ["synonym1", "synonym2", "synonym3", "synonym4", "synonym5"]
+}
+
+partOfSpeech values can be: noun, verb, adjective, adverb, preposition, conjunction, interjection
+Provide genuine, accurate Tamil translations. All Tamil text must be in Tamil script.`
+        }]
+      })
+    });
+
+    if (!response.ok) throw new Error('API error ' + response.status);
+    const data = await response.json();
+    const raw = data.content[0].text.trim();
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(clean);
+
+    renderResult(result);
+
+    // Add to history
+    addToHistory(result.word, result.primaryTamil);
+    currentWord = result;
+
+  } catch (err) {
+    showError('பிழை ஏற்பட்டது. மீண்டும் முயற்சிக்கவும். (' + err.message + ')');
+  } finally {
+    isLoading = false;
+    setLoading(false);
+  }
+}
+
+// ── RENDER ──
+function resetResult(word) {
+  document.getElementById('rWordEn').textContent = word;
+  document.getElementById('rWordTa').textContent = '...';
+  document.getElementById('rPhonetic').textContent = '';
+  document.getElementById('rPosTags').innerHTML = '';
+  document.getElementById('rDefinitions').innerHTML = '<li style="color:#bbb;font-size:14px;padding:8px 0;">Loading...</li>';
+  document.getElementById('rExamples').innerHTML = '';
+  document.getElementById('rEquivs').innerHTML = '';
+  document.getElementById('rSynonyms').innerHTML = '';
+  document.getElementById('rPictures').innerHTML = '<div class="pics-empty">படங்கள் ஏற்றப்படுகின்றன...</div>';
+  picturesLoaded = false;
+  document.getElementById('saveBtn').classList.remove('saved');
+  switchTab('meanings');
+}
+
+function renderResult(r) {
+  document.getElementById('rWordEn').textContent = r.word;
+  document.getElementById('rWordTa').textContent = r.primaryTamil;
+  document.getElementById('rPhonetic').textContent = r.phonetic || '';
+
+  // POS tags
+  const posEl = document.getElementById('rPosTags');
+  posEl.innerHTML = (r.partOfSpeech || []).map(p =>
+    `<span class="pos-tag ${p}">${p}</span>`
+  ).join('');
+
+  // Definitions
+  const defEl = document.getElementById('rDefinitions');
+  defEl.innerHTML = (r.definitions || []).map((d, i) => `
+    <li class="def-item">
+      <span class="def-num">${i + 1}.</span>
+      <div class="def-content">
+        <div class="def-en">${d.en}</div>
+        <div class="def-ta">${d.ta}</div>
+      </div>
+    </li>
+  `).join('');
+
+  // Examples
+  const exEl = document.getElementById('rExamples');
+  exEl.innerHTML = (r.examples || []).map(e => `
+    <div class="example-item">
+      <div class="ex-en">"${e.en}"</div>
+      <div class="ex-ta">${e.ta}</div>
+    </div>
+  `).join('');
+
+  // Tamil equivalents
+  const eqEl = document.getElementById('rEquivs');
+  eqEl.innerHTML = (r.tamilEquivalents || []).map(eq => `
+    <div class="equiv-card">
+      <div class="equiv-ta">${eq.ta}</div>
+      <div class="equiv-context">${eq.context}</div>
+    </div>
+  `).join('');
+
+  // Synonyms
+  const synEl = document.getElementById('rSynonyms');
+  synEl.innerHTML = (r.synonyms || []).map(s =>
+    `<span class="syn-chip" onclick="quickSearch('${s}')">${s}</span>`
+  ).join('');
+
+  // Check if saved
+  if (saved.some(s => s.en === r.word)) {
+    document.getElementById('saveBtn').classList.add('saved');
+  }
+}
+
+// ── TABS ──
+function switchTab(name) {
+  const tabNames = ['meanings', 'examples', 'tamil', 'synonyms', 'pictures'];
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', tabNames[i] === name);
+  });
+  document.querySelectorAll('.tab-pane').forEach(p => {
+    p.classList.toggle('active', p.id === 'tab-' + name);
+  });
+  if (name === 'pictures' && currentWord && !picturesLoaded) {
+    renderPictures(currentWord.word, currentWord.synonyms || []);
+  }
+}
+
+// ── PICTURES ──
+let picturesLoaded = false;
+
+function renderPictures(word, synonyms) {
+  picturesLoaded = true;
+  const el = document.getElementById('rPictures');
+
+  // Build 6 varied search queries from word + synonyms
+  const queries = [word, word + ' nature', word + ' concept', ...(synonyms || [])].slice(0, 6);
+  // Add a random cache-busting sig per query to get varied images
+  const sigs = Array.from({length: 6}, (_, i) => Math.floor(Math.random() * 1000) + i * 137);
+
+  el.innerHTML = queries.map((q, i) => `
+    <div class="pic-item" onclick="window.open('https://unsplash.com/s/photos/${encodeURIComponent(word)}', '_blank')">
+      <div class="pic-shimmer" id="shim-${i}"></div>
+      <img
+        src="https://source.unsplash.com/featured/400x300/?${encodeURIComponent(q)}&sig=${sigs[i]}"
+        alt="${q}"
+        loading="lazy"
+        onload="this.classList.add('loaded'); document.getElementById('shim-${i}').classList.add('hidden')"
+        onerror="this.closest('.pic-item').style.display='none'"
+      />
+      <div class="pic-overlay">
+        <span class="pic-overlay-text">${q}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── SAVE / HISTORY ──
+function toggleSave() {
+  if (!currentWord) return;
+  const btn = document.getElementById('saveBtn');
+  const idx = saved.findIndex(s => s.en === currentWord.word);
+  if (idx === -1) {
+    saved.unshift({ en: currentWord.word, ta: currentWord.primaryTamil });
+    btn.classList.add('saved');
+  } else {
+    saved.splice(idx, 1);
+    btn.classList.remove('saved');
+  }
+  renderSaved();
+}
+
+function addToHistory(en, ta) {
+  history = history.filter(h => h.en !== en);
+  history.unshift({ en, ta });
+  if (history.length > 10) history.pop();
+  renderHistory();
+}
+
+function renderHistory() {
+  const el = document.getElementById('historyList');
+  const widget = document.getElementById('historyWidget');
+  if (!history.length) { widget.style.display = 'none'; return; }
+  widget.style.display = 'block';
+  el.innerHTML = history.slice(0, 8).map(h => `
+    <li class="history-item" onclick="quickSearch('${h.en}')">
+      <span class="hist-word">${h.en}</span>
+      <span class="hist-ta">${h.ta}</span>
+    </li>
+  `).join('');
+}
+
+function renderSaved() {
+  const el = document.getElementById('savedList');
+  const widget = document.getElementById('savedWidget');
+  if (!saved.length) { widget.style.display = 'none'; return; }
+  widget.style.display = 'block';
+  el.innerHTML = saved.map(s => `
+    <li class="saved-item" onclick="quickSearch('${s.en}')">
+      <span class="saved-dot"></span>
+      <span class="saved-word">${s.en}</span>
+      <span class="saved-ta">${s.ta}</span>
+    </li>
+  `).join('');
+}
+
+function clearHistory() { history = []; renderHistory(); }
+function clearSaved() {
+  saved = [];
+  renderSaved();
+  if (document.getElementById('saveBtn')) {
+    document.getElementById('saveBtn').classList.remove('saved');
+  }
+}
+
+function copyWord() {
+  if (!currentWord) return;
+  const text = `${currentWord.word} = ${currentWord.primaryTamil}`;
+  navigator.clipboard.writeText(text);
+  const btn = event.target;
+  const orig = btn.textContent;
+  btn.textContent = '✓';
+  setTimeout(() => btn.textContent = orig, 1500);
+}
+
+// ── UI HELPERS ──
+function setLoading(on) {
+  const btn = document.getElementById('searchBtn');
+  if (on) {
+    btn.disabled = true;
+    btn.innerHTML = '<span class="btn-spinner"></span>';
+  } else {
+    btn.disabled = false;
+    btn.innerHTML = 'தேடு / Search';
+  }
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorBanner');
+  el.textContent = msg;
+  el.classList.add('visible');
+}
+
+function clearError() {
+  const el = document.getElementById('errorBanner');
+  el.textContent = '';
+  el.classList.remove('visible');
+}
+
+// ── PDF VOCABULARY EXTRACTION ──
+let pdfText = '';
+let pdfPages = [];   // array of { pageNum, text }
+let pdfFileName = '';
+let allVocabWords = [];
+let currentPosFilter = 'all';
+let extractionAborted = false;
+
+// Set PDF.js worker — wait for lib to load
+window.addEventListener('load', () => {
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+});
+
+async function handlePDFUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  pdfFileName = file.name;
+  pdfPages = [];
+  document.getElementById('pdfFileLabel').textContent = file.name.length > 30 ? file.name.slice(0, 27) + '...' : file.name;
+  document.getElementById('pdfFilename').classList.add('visible');
+  document.getElementById('pdfExtractBtn').classList.add('visible');
+
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const text = content.items.map(item => item.str).join(' ').trim();
+      if (text.length > 20) pdfPages.push({ pageNum: i, text });
+    }
+    pdfText = pdfPages.map(p => p.text).join('\n');
+    document.getElementById('vocabPagesStat').textContent = pdf.numPages;
+  } catch (e) {
+    showError('PDF reading failed: ' + e.message);
+  }
+}
+
+function clearPDF() {
+  pdfText = '';
+  pdfPages = [];
+  pdfFileName = '';
+  extractionAborted = true;
+  document.getElementById('pdfFileInput').value = '';
+  document.getElementById('pdfFilename').classList.remove('visible');
+  document.getElementById('pdfExtractBtn').classList.remove('visible');
+  document.getElementById('vocabPanel').classList.remove('visible');
+  allVocabWords = [];
+}
+
+function repairJSON(raw) {
+  // Already valid — return as-is
+  try { JSON.parse(raw); return raw; } catch(_) {}
+
+  // Strip leading/trailing non-JSON chars
+  const start = raw.indexOf('[');
+  if (start === -1) throw new Error('No JSON array found in response');
+  raw = raw.slice(start);
+
+  // Find the last fully-closed object by scanning for "}," or "}" before a truncation
+  // Strategy: trim to last complete "}" then close the array
+  let depth = 0;
+  let lastGoodPos = -1;
+  let inString = false;
+  let escape = false;
+
+  for (let i = 0; i < raw.length; i++) {
+    const ch = raw[i];
+    if (escape) { escape = false; continue; }
+    if (ch === '\\' && inString) { escape = true; continue; }
+    if (ch === '"') { inString = !inString; continue; }
+    if (inString) continue;
+    if (ch === '{') depth++;
+    if (ch === '}') {
+      depth--;
+      if (depth === 0) lastGoodPos = i; // end of a top-level object
+    }
+  }
+
+  if (lastGoodPos === -1) throw new Error('Could not find any complete JSON object');
+
+  // Slice to last good object and close the array
+  return raw.slice(0, lastGoodPos + 1) + ']';
+}
+
+async function extractVocabulary() {
+  if (!pdfPages.length && !pdfText) { showError('PDF text could not be read. Please try another file.'); return; }
+
+  extractionAborted = false;
+  const panel = document.getElementById('vocabPanel');
+  panel.classList.add('visible');
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('resultCol').style.display = 'none';
+  document.getElementById('sidebarCol').style.display = 'none';
+
+  document.getElementById('vocabSource').textContent = pdfFileName;
+  document.getElementById('vocabCountStat').textContent = '0';
+  document.getElementById('pdfExtractBtn').disabled = true;
+
+  allVocabWords = [];
+  const seenWords = new Set();
+
+  const BATCH = 5;           // pages per API call
+  const CONCURRENCY = 4;     // parallel API calls at once
+  const pages = pdfPages.length ? pdfPages : [{ pageNum: 1, text: pdfText }];
+  const totalBatches = Math.ceil(pages.length / BATCH);
+
+  // Build all batch descriptors upfront
+  const batches = Array.from({ length: totalBatches }, (_, b) => ({
+    index: b,
+    pages: pages.slice(b * BATCH, b * BATCH + BATCH)
+  }));
+
+  // Show live loading UI
+  document.getElementById('vocabBody').innerHTML = `
+    <div class="vocab-loading" id="vocabLoadingLive">
+      <span class="loading-label" id="loadingLabel">Processing ${pages.length} pages in parallel...</span>
+      <span class="vocab-count-live" id="vocabCountLive">0</span>
+      <div style="font-family:monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:16px;">words found so far</div>
+      <div style="width:100%;max-width:400px;margin:0 auto 12px;background:var(--border);height:2px;">
+        <div id="progressFill" style="height:100%;background:var(--saffron);width:0%;transition:width 0.3s;"></div>
+      </div>
+      <div id="batchStatus" style="font-family:monospace;font-size:9px;color:#555;letter-spacing:2px;margin-bottom:16px;">STARTING...</div>
+      <button onclick="extractionAborted=true;document.getElementById('pdfExtractBtn').disabled=false;"
+        style="font-family:monospace;font-size:10px;letter-spacing:2px;background:none;border:1px solid #444;color:#888;padding:8px 20px;cursor:pointer;text-transform:uppercase;">
+        ✕ Cancel
+      </button>
+    </div>`;
+
+  let completedBatches = 0;
+
+  // Process batches in parallel chunks of CONCURRENCY
+  for (let i = 0; i < batches.length; i += CONCURRENCY) {
+    if (extractionAborted) break;
+
+    const chunk = batches.slice(i, i + CONCURRENCY);
+
+    const statusEl = document.getElementById('batchStatus');
+    if (statusEl) {
+      const pageNums = chunk.flatMap(b => b.pages.map(p => p.pageNum));
+      statusEl.textContent = `PAGES ${pageNums[0]}–${pageNums[pageNums.length-1]} OF ${pages.length}`;
+    }
+
+    // Fire all calls in this chunk simultaneously
+    const results = await Promise.allSettled(chunk.map(batch => fetchBatchVocab(batch.pages)));
+
+    for (const result of results) {
+      if (result.status === 'fulfilled' && result.value) {
+        for (const w of result.value) {
+          const key = w.word.toLowerCase().trim();
+          if (!key || seenWords.has(key)) continue;
+          seenWords.add(key);
+          allVocabWords.push(w);
+        }
+      }
+    }
+
+    completedBatches += chunk.length;
+    const pct = Math.round((completedBatches / totalBatches) * 100);
+    const progressFill = document.getElementById('progressFill');
+    const liveCount = document.getElementById('vocabCountLive');
+    if (progressFill) progressFill.style.width = pct + '%';
+    if (liveCount) liveCount.textContent = allVocabWords.length;
+    document.getElementById('vocabCountStat').textContent = allVocabWords.length;
+  }
+
+  renderVocabTable(allVocabWords);
+  document.getElementById('vocabCountStat').textContent = allVocabWords.length;
+  document.getElementById('vocabPagesStat').textContent = pages.length;
+  document.getElementById('pdfExtractBtn').disabled = false;
+}
+
+async function fetchBatchVocab(batchPages) {
+  const batchText = batchPages.map(p => `[PAGE ${p.pageNum}]\n${p.text}`).join('\n\n');
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4000,
+        messages: [{
+          role: 'user',
+          content: `You are an expert English-Tamil lexicographer. Extract ALL significant English vocabulary from the text below (every noun, verb, adjective, adverb worth knowing — skip only trivial words like "the", "a", "is", "and", "of", "to", "in").
+
+The text has page markers like [PAGE 3]. For each word include which page(s) it appeared on.
+
+Respond ONLY with a valid JSON array (no markdown, no backticks):
+[{"word":"example","pos":"noun","phonetic":"/ɪɡˈzɑːmpəl/","meaning_en":"A representative instance","meaning_ta":"எடுத்துக்காட்டு","definition_ta":"விளக்கத்திற்கு பயன்படுத்தப்படும் நிகழ்வு","pages":[1]}]
+
+pos: noun | verb | adjective | adverb | other. Always close with ].
+
+TEXT:
+${batchText.slice(0, 5000)}`
+        }]
+      })
+    });
+    if (!response.ok) return null;
+    const data = await response.json();
+    let raw = data.content[0].text.trim().replace(/```json|```/g, '').trim();
+    raw = repairJSON(raw);
+    return JSON.parse(raw);
+  } catch (e) {
+    console.warn('Batch failed:', e.message);
+    return null;
+  }
+}
+
+function renderVocabTable(words) {
+  if (!words.length) {
+    document.getElementById('vocabBody').innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted);">No vocabulary found.</div>';
+    return;
+  }
+
+  const rows = words.map((w, i) => {
+    const posClass = w.pos === 'adjective' ? 'adj' : (['noun','verb','adverb'].includes(w.pos) ? w.pos : 'other');
+    const posLabel = w.pos || 'word';
+    const pagesBadges = (w.pages || []).map(p =>
+      `<span style="display:inline-block;font-family:monospace;font-size:9px;background:var(--tag-bg);color:var(--muted);padding:2px 7px;margin:1px;letter-spacing:1px;">P${p}</span>`
+    ).join('');
+    return `<tr data-pos="${w.pos || 'other'}" data-word="${w.word.toLowerCase()}">
+      <td class="vt-num">${i + 1}</td>
+      <td><span class="vt-word" onclick="quickSearch('${w.word.replace(/'/g,"\\'")}')
+" title="Look up in dictionary">${w.word}</span>
+          <br><small style="font-family:monospace;font-size:10px;color:var(--muted);letter-spacing:1px;">${w.phonetic || ''}</small></td>
+      <td><span class="vt-pos ${posClass}">${posLabel}</span></td>
+      <td><div style="font-size:12px;color:#aaa;">${pagesBadges || '<span style="color:#ddd;font-size:11px;">—</span>'}</div></td>
+      <td><div class="vt-en">${w.meaning_en || ''}</div></td>
+      <td><div class="vt-ta">${w.meaning_ta || ''}</div>
+          <div class="vt-ta-def">${w.definition_ta || ''}</div></td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('vocabBody').innerHTML = `
+    <div class="vocab-table-wrap">
+      <table class="vocab-table" id="vocabTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Word / சொல்</th>
+            <th>வகை</th>
+            <th>Pages</th>
+            <th>English Meaning</th>
+            <th>Tamil / தமிழ் பொருள்</th>
+          </tr>
+        </thead>
+        <tbody id="vocabTbody">${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+function filterVocab() {
+  const query = document.getElementById('vocabFilter').value.toLowerCase();
+  document.querySelectorAll('#vocabTbody tr').forEach(row => {
+    const word = row.dataset.word || '';
+    const pos = row.dataset.pos || '';
+    const posMatch = currentPosFilter === 'all' || pos === currentPosFilter || (currentPosFilter === 'other' && !['noun','verb','adjective','adverb'].includes(pos));
+    const textMatch = !query || word.includes(query);
+    row.style.display = (posMatch && textMatch) ? '' : 'none';
+  });
+}
+
+function setPosFilter(pos, btn) {
+  currentPosFilter = pos;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  filterVocab();
+}
+
+let currentSort = 'default';
+
+function sortVocab() {
+  currentSort = document.getElementById('vocabSort').value;
+  const posOrder = { noun: 0, verb: 1, adjective: 2, adverb: 3, other: 4 };
+  const sorted = [...allVocabWords].sort((a, b) => {
+    if (currentSort === 'az') return a.word.localeCompare(b.word);
+    if (currentSort === 'za') return b.word.localeCompare(a.word);
+    if (currentSort === 'page-asc') return Math.min(...(a.pages||[999])) - Math.min(...(b.pages||[999]));
+    if (currentSort === 'page-desc') return Math.min(...(b.pages||[0])) - Math.min(...(a.pages||[0]));
+    if (currentSort === 'pos') return (posOrder[a.pos]??4) - (posOrder[b.pos]??4);
+    return 0;
+  });
+  renderVocabTable(sorted);
+  filterVocab();
+}
+
+function downloadVocabPDF() {
+  if (!allVocabWords.length) { showError('No vocabulary to download yet.'); return; }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+
+  // ── Header ──
+  doc.setFillColor(26, 20, 16);
+  doc.rect(0, 0, 297, 28, 'F');
+
+  doc.setFillColor(200, 92, 26);
+  doc.rect(0, 28, 297, 2, 'F');
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(20);
+  doc.setTextColor(255, 255, 255);
+  doc.text('MOZHI — Tamil Vocabulary', 14, 12);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(150, 140, 130);
+  doc.text('TAMIL DICTIONARY · VOCABULARY EXPORT', 14, 19);
+
+  doc.setTextColor(200, 150, 50);
+  doc.setFontSize(8);
+  const meta = `Source: ${pdfFileName}   ·   ${allVocabWords.length} words   ·   ${new Date().toLocaleDateString()}`;
+  doc.text(meta, 14, 25);
+
+  // ── Table ──
+  const rows = allVocabWords.map((w, i) => [
+    i + 1,
+    w.word || '',
+    w.phonetic || '',
+    w.pos || '',
+    (w.pages || []).map(p => `P${p}`).join(', ') || '—',
+    w.meaning_en || '',
+    w.meaning_ta || '',
+    w.definition_ta || '',
+  ]);
+
+  doc.autoTable({
+    startY: 33,
+    head: [['#', 'Word', 'Phonetic', 'POS', 'Pages', 'English Meaning', 'Tamil / தமிழ்', 'Tamil Definition']],
+    body: rows,
+    styles: {
+      font: 'helvetica',
+      fontSize: 8,
+      cellPadding: 3,
+      overflow: 'linebreak',
+      valign: 'top',
+      lineColor: [228, 221, 211],
+      lineWidth: 0.2,
+    },
+    headStyles: {
+      fillColor: [245, 240, 232],
+      textColor: [138, 127, 114],
+      fontStyle: 'bold',
+      fontSize: 7,
+      letterSpacing: 1,
+    },
+    alternateRowStyles: { fillColor: [252, 249, 243] },
+    columnStyles: {
+      0: { cellWidth: 8,  halign: 'center', textColor: [170,160,150] },
+      1: { cellWidth: 30, fontStyle: 'bold', textColor: [26, 20, 16] },
+      2: { cellWidth: 24, textColor: [150, 140, 130], fontSize: 7 },
+      3: { cellWidth: 18, textColor: [138, 127, 114], fontSize: 7 },
+      4: { cellWidth: 18, textColor: [170, 160, 150], fontSize: 7 },
+      5: { cellWidth: 52, textColor: [60, 55, 50] },
+      6: { cellWidth: 38, textColor: [26, 107, 107], fontStyle: 'bold' },
+      7: { cellWidth: 70, textColor: [100, 90, 80], fontSize: 7 },
+    },
+    margin: { left: 14, right: 14 },
+    didDrawPage: (data) => {
+      // Footer on every page
+      const pageCount = doc.internal.getNumberOfPages();
+      const pageNum = data.pageNumber;
+      doc.setFontSize(7);
+      doc.setTextColor(180, 170, 160);
+      doc.text(
+        `Mozhi Dictionary  ·  Page ${pageNum} of ${pageCount}  ·  ${pdfFileName}`,
+        14, doc.internal.pageSize.height - 8
+      );
+    },
+  });
+
+  const safeName = pdfFileName.replace(/[^a-z0-9]/gi, '_').replace(/\.pdf$/i, '');
+  doc.save(`mozhi_vocabulary_${safeName}.pdf`);
+}
+</script>
+</body>
+</html>
